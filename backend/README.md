@@ -1,6 +1,6 @@
-# PartnerPilot backend
+# ALLIOME backend
 
-PartnerPilot converts a B2B market-entry brief into an inspectable, evidence-backed partner portfolio. It is designed for market-entry consultants and ecosystem teams who pay to reduce manual company research, partner qualification, and activation planning.
+ALLIOME converts a B2B market-entry brief into an inspectable, evidence-backed partner portfolio. It is designed for market-entry consultants and ecosystem teams who pay to reduce manual company research, partner qualification, and activation planning.
 
 ## Run
 

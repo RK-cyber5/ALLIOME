@@ -1,4 +1,4 @@
-# PartnerPilot architecture
+# ALLIOME architecture
 
 ```mermaid
 flowchart LR

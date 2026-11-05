@@ -1,4 +1,4 @@
-# PartnerPilot API contract
+# ALLIOME API contract
 
 Base URL: `http://localhost:8000`. All responses are JSON. Errors use:
 
@@ -8,7 +8,7 @@ Base URL: `http://localhost:8000`. All responses are JSON. Errors use:
 
 ## `GET /health`
 
-Returns `{"status":"ok","service":"partnerpilot"}`.
+Returns `{"status":"ok","service":"alliome"}`.
 
 ## `POST /api/analyze`
 

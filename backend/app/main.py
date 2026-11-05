@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
     await client.close()
 
 
-app = FastAPI(title="PartnerPilot API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="ALLIOME API", version="0.1.0", lifespan=lifespan)
 settings = get_settings()
 app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list or [], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["content-type"])
 
@@ -38,7 +38,7 @@ async def http_error(_: Request, exc: HTTPException) -> JSONResponse:
 
 @app.get("/health")
 async def health() -> dict[str, str]:
-    return {"status": "ok", "service": "partnerpilot"}
+    return {"status": "ok", "service": "alliome"}
 
 
 @app.post("/api/analyze", response_model=AnalysisAccepted, status_code=202, responses={422: {"model": ErrorResponse}})
