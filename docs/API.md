@@ -1,6 +1,6 @@
 # ALLIOME API contract
 
-Base URL: `http://localhost:8000`. All responses are JSON. Errors use:
+Base URL: `http://127.0.0.1:8000`. All responses are JSON. Errors use:
 
 ```json
 {"error": {"code": "request_error", "message": "Analysis not found"}}

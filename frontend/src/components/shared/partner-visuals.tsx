@@ -59,7 +59,8 @@ export function PartnerAvatar({
 const SupportIcon = ({ support }: { support: EvidenceSource["support"] }) => {
   const cls = "size-3.5 shrink-0";
   if (support === "verified") return <ShieldCheck className={cn(cls, "text-mint")} />;
-  if (support === "unverified") return <ShieldAlert className={cn(cls, "text-warn")} />;
+  if (support === "provider_supported") return <ShieldCheck className={cn(cls, "text-signal")} />;
+  if (support === "inferred" || support === "unverified") return <ShieldAlert className={cn(cls, "text-warn")} />;
   return <ShieldX className={cn(cls, "text-danger")} />;
 };
 
@@ -140,7 +141,7 @@ export function EvidenceRow({ evidence, className }: { evidence: EvidenceSource;
         >
           {supportMeta(evidence.support).label}
         </span>
-        <a
+        {evidence.url && <a
           href={evidence.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -148,7 +149,7 @@ export function EvidenceRow({ evidence, className }: { evidence: EvidenceSource;
           title={`Open source — ${domainFromUrl(evidence.url)}`}
         >
           <ExternalLink className="size-3.5" />
-        </a>
+        </a>}
       </div>
     </div>
   );

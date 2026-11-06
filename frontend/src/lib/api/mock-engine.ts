@@ -158,6 +158,10 @@ export function getMockAnalysis(id: string): Analysis {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       demo: true,
+      stage: "failed",
+      progress: 0,
+      warnings: [],
+      errors: [{ code: "not_found", message: `Analysis ${id} was not found in the demo engine.` }],
       stages: [],
       error: { code: "not_found", message: `Analysis ${id} was not found in the demo engine.` },
     };
@@ -228,6 +232,10 @@ export function getMockAnalysis(id: string): Analysis {
     created_at: new Date(run.createdAt).toISOString(),
     updated_at: new Date().toISOString(),
     demo: true,
+    stage: stages.find((stage) => stage.status === "running" || stage.status === "failed")?.key ?? (terminalStatus === "queued" ? "queued" : "generating_activation"),
+    progress: Math.round((stages.filter((stage) => stage.status === "completed").length / STAGE_SCHEDULE.length) * 100),
+    warnings: [],
+    errors: terminalStatus === "failed" ? [{ code: "evidence_timeout", message: "Demo simulation: evidence collection timed out on a candidate source.", stage: "investigating_capabilities" }] : [],
     stages: [...stages, ...remaining.map((s) => ({ key: s.key, label: s.label, status: "pending" as const, started_at: null, completed_at: null, detail: null }))],
     error:
       terminalStatus === "failed"

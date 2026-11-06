@@ -606,6 +606,10 @@ export const DEMO_SEED_ANALYSIS: Analysis = {
   created_at: new Date(Date.now() - 60 * 60000).toISOString(),
   updated_at: new Date(Date.now() - 12 * 60000).toISOString(),
   demo: true,
+  stage: "generating_activation",
+  progress: 100,
+  warnings: [],
+  errors: [],
   stages: [
     stage("analysing_company", "Analysing company & product", "Aivera Flow — AI process optimisation for discrete manufacturing", 54),
     stage("compiling_capability_gaps", "Compiling capability gaps", "6 required capabilities identified for DACH market entry", 51),

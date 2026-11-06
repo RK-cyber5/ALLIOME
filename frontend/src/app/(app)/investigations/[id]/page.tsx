@@ -64,11 +64,7 @@ export default function InvestigationPage({ params }: { params: Promise<{ id: st
   const { analyses, upsertAnalysis, setActive } = useWorkspace();
   const reduce = useReducedMotion();
 
-  const progress = useMemo(() => {
-    if (!analysis) return 0;
-    const done = analysis.stages.filter((s) => s.status === "completed").length;
-    return Math.round((done / Math.max(1, analysis.stages.length)) * 100);
-  }, [analysis]);
+  const progress = analysis?.progress ?? 0;
 
   const retry = async () => {
     if (!analysis) return;
@@ -130,7 +126,7 @@ export default function InvestigationPage({ params }: { params: Promise<{ id: st
           <div className="flex items-center gap-3">
             <Loader2 className="size-4 animate-spin text-signal" />
             <p className="text-sm text-muted-foreground">
-              Investigation running — {progress}% of stages complete. This page updates live.
+              Investigation running — {analysis.stage.replace(/_/g, " ")} at {progress}%. This page updates live.
             </p>
           </div>
           <span className="font-mono text-2xl font-bold text-signal">{progress}%</span>
@@ -142,7 +138,7 @@ export default function InvestigationPage({ params }: { params: Promise<{ id: st
             <div className="flex items-center gap-3">
               <CircleCheck className="size-4.5 shrink-0 text-mint" />
               <p className="text-sm text-muted-foreground">
-                Investigation complete — all {analysis.stages.length} stages finished. Results are ready.
+                Investigation complete — FastAPI reported {progress}%. Results are ready.
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5">
@@ -223,13 +219,30 @@ export default function InvestigationPage({ params }: { params: Promise<{ id: st
         </div>
       )}
 
+      {analysis.warnings.length > 0 && (
+        <div className="mb-6 rounded-xl border border-warn/30 bg-warn/5 px-4 py-4">
+          <p className="text-sm font-medium text-foreground">Backend warnings</p>
+          <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+            {analysis.warnings.map((warning, index) => <li key={`${warning.code}-${index}`}>{warning.message} <span className="font-mono text-xs text-faint">({warning.code})</span></li>)}
+          </ul>
+        </div>
+      )}
+      {analysis.errors.length > 0 && analysis.status !== "failed" && (
+        <div className="mb-6 rounded-xl border border-danger/30 bg-danger/5 px-4 py-4">
+          <p className="text-sm font-medium text-foreground">Backend errors</p>
+          <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+            {analysis.errors.map((item, index) => <li key={`${item.code}-${index}`}>{item.message} <span className="font-mono text-xs text-faint">({item.code})</span></li>)}
+          </ul>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.4fr_1fr]">
         {/* Stage tracker */}
         <section className="card-sheen rounded-xl border bg-surface-2/50 p-5">
           <div className="mb-5 flex items-center justify-between">
             <SectionLabel>Workflow stages</SectionLabel>
             <span className="font-mono text-xs text-faint">
-              {analysis.stages.filter((s) => s.status === "completed").length}/{analysis.stages.length} complete
+              {progress}% reported by FastAPI
             </span>
           </div>
 

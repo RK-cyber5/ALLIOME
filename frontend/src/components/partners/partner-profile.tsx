@@ -64,7 +64,7 @@ export function PartnerProfileContent({
 }) {
   const evIds = new Set(partner.evidence.map((e) => e.id));
   const ev = (ids: string[]) => partner.evidence.filter((e) => ids.includes(e.id) && evIds.has(e.id));
-  const unverified = partner.evidence.filter((e) => e.support === "unverified");
+  const unverified = partner.evidence.filter((e) => e.support === "unverified" || e.support === "inferred");
   const inPortfolio = portfolio?.selected.some((s) => s.partner_id === partner.id);
   const selection = portfolio?.selected.find((s) => s.partner_id === partner.id);
 

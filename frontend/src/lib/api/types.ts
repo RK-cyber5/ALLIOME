@@ -9,10 +9,8 @@
  *   GET  /api/analyze/{analysis_id}/portfolio
  *   GET  /api/analyze/{analysis_id}/activation
  *
- * `backend/API.md` was not available when this frontend was built, so the shapes
- * below document the contract this frontend assumes. All network access is
- * isolated behind `src/lib/api/client.ts`; if the real schema differs, remap it
- * in the adapter functions in that file — components consume only these types.
+ * FastAPI owns the wire contract in `docs/API.md`. These are stable view models
+ * consumed by React; `client.ts` is the explicit adapter between the two.
  */
 
 // ─── Analysis lifecycle ────────────────────────────────────────────────────
@@ -115,6 +113,11 @@ export interface Analysis {
   created_at: string;
   updated_at: string;
   stages: AnalysisStage[];
+  /** Authoritative FastAPI stage and progress; never derived from UI stages. */
+  stage: string;
+  progress: number;
+  warnings: AnalysisError[];
+  errors: AnalysisError[];
   error?: AnalysisError | null;
   /** True when served by the frontend demo/mock engine (fictional data). */
   demo?: boolean;
@@ -129,12 +132,12 @@ export interface SubmitAnalysisResponse {
 
 export type ConfidenceLevel = "high" | "medium" | "low";
 export type CapabilityLevel = "strong" | "moderate" | "emerging";
-export type EvidenceSupport = "verified" | "unverified" | "contradicted";
+export type EvidenceSupport = "verified" | "provider_supported" | "inferred" | "unverified" | "contradicted";
 
 export interface EvidenceSource {
   id: string;
   title: string;
-  url: string;
+  url?: string;
   publisher: string;
   retrieved_at: string; // ISO date
   support: EvidenceSupport;

@@ -113,6 +113,10 @@ export function supportMeta(s: EvidenceSupport): { label: string; className: str
   switch (s) {
     case "verified":
       return { label: "Verified", className: "text-mint border-mint/30 bg-mint/10" };
+    case "provider_supported":
+      return { label: "Provider evidence", className: "text-signal border-signal/30 bg-signal/10" };
+    case "inferred":
+      return { label: "Inferred", className: "text-warn border-warn/30 bg-warn/10" };
     case "unverified":
       return { label: "Unverified", className: "text-warn border-warn/30 bg-warn/10" };
     default:
