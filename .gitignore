@@ -8,3 +8,4 @@ __pycache__/
 backend/.env
 backend/.venv/
 backend/partnerpilot.db
+.pytest-tmp/
